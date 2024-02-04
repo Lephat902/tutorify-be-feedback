@@ -1,7 +1,6 @@
 ARG NODE_VERSION=18
 
-FROM node:${NODE_VERSION}-bullseye-slim AS base
-RUN apt-get update && apt-get install -y procps && rm -rf /var/lib/apt/lists/*
+FROM node:${NODE_VERSION}-alpine AS base
 
 ###################
 # BUILD FOR LOCAL DEVELOPMENT
