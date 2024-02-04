@@ -1,6 +1,11 @@
 import { Global, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Feedback, FeedbackSchema } from './schemas';
+import {
+  Feedback,
+  FeedbackReply,
+  FeedbackReplySchema,
+  FeedbackSchema,
+} from './schemas';
 import { ConfigService } from '@nestjs/config';
 
 @Global()
@@ -18,9 +23,13 @@ import { ConfigService } from '@nestjs/config';
         name: Feedback.name,
         schema: FeedbackSchema,
       },
+      {
+        name: FeedbackReply.name,
+        schema: FeedbackReplySchema,
+      },
     ]),
   ],
-  providers: [MongooseModule, Feedback],
-  exports: [MongooseModule, Feedback],
+  providers: [MongooseModule, Feedback, FeedbackReply],
+  exports: [MongooseModule, Feedback, FeedbackReply],
 })
 export class InfrastructureModule {}
