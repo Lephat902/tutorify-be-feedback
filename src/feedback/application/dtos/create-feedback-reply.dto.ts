@@ -1,5 +1,5 @@
 export class FeedbackReply {
-  readonly studentId: string;
+  readonly userId: string;
   readonly text: string;
 }
 

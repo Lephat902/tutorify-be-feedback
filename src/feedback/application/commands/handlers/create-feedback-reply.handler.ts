@@ -20,7 +20,6 @@ export class CreateFeedbackReplyHandler
     const session = await this.connection.startSession();
     const repliedFeedback = await session.withTransaction(async () => {
       const { createFeedbackReplyDto } = command;
-      console.log(createFeedbackReplyDto);
       const { feedbackId, feedbackReply } = createFeedbackReplyDto;
 
       const newReply = new this.feedbackReplyModel(feedbackReply);

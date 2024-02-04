@@ -10,7 +10,7 @@ export class FeedbackReply {
   _id: MongooseSchema.Types.ObjectId;
 
   @Prop({ default: '' })
-  studentId: string;
+  userId: string;
 
   @Prop({ default: '' })
   text: string;
