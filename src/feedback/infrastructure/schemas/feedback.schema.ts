@@ -10,16 +10,16 @@ export class Feedback {
   @Transform((params) => params.obj._id.toString())
   _id: MongooseSchema.Types.ObjectId;
 
-  @Prop({ default: '' })
+  @Prop({ required: true })
   rate: number;
 
-  @Prop({ default: '' })
+  @Prop({ required: true })
   text: string;
 
-  @Prop({ default: '' })
+  @Prop({ required: true })
   tutorId: string;
 
-  @Prop({ default: '' })
+  @Prop({ required: true })
   studentId: string;
 
   @Prop([

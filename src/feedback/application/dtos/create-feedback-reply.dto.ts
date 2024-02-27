@@ -1,9 +1,9 @@
-export class FeedbackReply {
+export class FeedbackReplyDto {
   readonly userId: string;
   readonly text: string;
 }
 
 export class CreateFeedbackReplyDto {
   readonly feedbackId: string;
-  readonly feedbackReply: FeedbackReply;
+  readonly feedbackReply: FeedbackReplyDto;
 }

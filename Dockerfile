@@ -47,6 +47,15 @@ COPY --chown=node:node . .
 # the 'npm ci' cmd requires root access
 USER root
 
+# Switch to shared dir
+WORKDIR /usr/src/shared
+
+# Install packages
+RUN npm ci --only=production && npm cache clean --force
+
+# Switch back to app dir
+WORKDIR /usr/src/app
+
 # Run the build command which creates the production bundle
 RUN npm run build
 
@@ -67,4 +76,4 @@ COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
 COPY --chown=node:node --from=build /usr/src/app/dist ./dist
 
 # Start the server using the production build
-CMD [ "node", "dist/main.js" ]
+CMD [ "node", "dist/app/src/main.js" ]

@@ -14,7 +14,7 @@ export class CreateFeedbackReplyHandler
     @InjectModel(FeedbackReply.name)
     private readonly feedbackReplyModel: Model<FeedbackReply>,
     @InjectConnection() private readonly connection: Connection,
-  ) {}
+  ) { }
 
   async execute(command: CreateFeedbackReplyCommand) {
     const session = await this.connection.startSession();
