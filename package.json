@@ -32,6 +32,7 @@
     "builder-pattern": "^2.2.0",
     "class-transformer": "^0.5.1",
     "mongoose": "^8.1.1",
+    "nestjs-saga": "^0.2.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1"
   },

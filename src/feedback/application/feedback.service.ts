@@ -5,14 +5,18 @@ import {
   GetFeedbacksByTutorIdQuery,
   GetFeedbacksQuery,
 } from './queries/impl';
-import {
-  CreateFeedbackCommand,
-  CreateFeedbackReplyCommand,
-} from './commands/impl';
+import { CreateFeedbackReplyCommand } from './commands/impl';
 import { CreateFeedbackDto, CreateFeedbackReplyDto } from './dtos';
 import { Feedback, FeedbackReply } from '../infrastructure/schemas';
-import { BroadcastService, FeedbackCreatedEvent, FeedbackCreatedEventPayload, FeedbackReplyCreatedEvent, FeedbackReplyCreatedEventPayload } from '@tutorify/shared';
+import {
+  BroadcastService,
+  FeedbackCreatedEvent,
+  FeedbackCreatedEventPayload,
+  FeedbackReplyCreatedEvent,
+  FeedbackReplyCreatedEventPayload,
+} from '@tutorify/shared';
 import { Builder } from 'builder-pattern';
+import { CreateFeedbackSaga } from './sagas/impl';
 
 @Injectable()
 export class FeedbackService {
@@ -20,32 +24,33 @@ export class FeedbackService {
     private readonly queryBus: QueryBus,
     private readonly commandBus: CommandBus,
     private readonly broadcastService: BroadcastService,
-  ) { }
+  ) {}
 
   getFeedbacks(): Promise<Feedback> {
     return this.queryBus.execute(new GetFeedbacksQuery());
   }
 
-  async createFeedback(createFeedbackDto: CreateFeedbackDto): Promise<Feedback> {
-    const newFeedback = await this.commandBus.execute(
-      new CreateFeedbackCommand(createFeedbackDto),
-    );
-
-    this.dispatchFeedbackCreatedEvent(newFeedback);
-
-    return newFeedback;
+  async createFeedback(
+    createFeedbackDto: CreateFeedbackDto,
+  ): Promise<Feedback> {
+    return this.commandBus.execute(new CreateFeedbackSaga(createFeedbackDto));
   }
 
   getFeedbacksByTutorId(tutorId: string) {
     return this.queryBus.execute(new GetFeedbacksByTutorIdQuery(tutorId));
   }
 
-  async createFeedbackReply(createFeedbackReplyDto: CreateFeedbackReplyDto): Promise<FeedbackReply> {
+  async createFeedbackReply(
+    createFeedbackReplyDto: CreateFeedbackReplyDto,
+  ): Promise<FeedbackReply> {
     const newFeedbackReply = await this.commandBus.execute(
       new CreateFeedbackReplyCommand(createFeedbackReplyDto),
     );
 
-    this.dispatchFeedbackReplyCreatedEvent(createFeedbackReplyDto.feedbackId, newFeedbackReply);
+    this.dispatchFeedbackReplyCreatedEvent(
+      createFeedbackReplyDto.feedbackId,
+      newFeedbackReply,
+    );
 
     return newFeedbackReply;
   }
@@ -65,10 +70,16 @@ export class FeedbackService {
       .rate(rate)
       .build();
     const event = new FeedbackCreatedEvent(eventPayload);
-    this.broadcastService.broadcastEventToAllMicroservices(event.pattern, event.payload);
+    this.broadcastService.broadcastEventToAllMicroservices(
+      event.pattern,
+      event.payload,
+    );
   }
 
-  async dispatchFeedbackReplyCreatedEvent(feedbackId: string, newFeedbackReply: FeedbackReply) {
+  async dispatchFeedbackReplyCreatedEvent(
+    feedbackId: string,
+    newFeedbackReply: FeedbackReply,
+  ) {
     const { _id, userId } = newFeedbackReply;
     const eventPayload = Builder<FeedbackReplyCreatedEventPayload>()
       .feedbackReplyId(_id.toString())
@@ -76,6 +87,9 @@ export class FeedbackService {
       .feedbackId(feedbackId)
       .build();
     const event = new FeedbackReplyCreatedEvent(eventPayload);
-    this.broadcastService.broadcastEventToAllMicroservices(event.pattern, event.payload);
+    this.broadcastService.broadcastEventToAllMicroservices(
+      event.pattern,
+      event.payload,
+    );
   }
 }
