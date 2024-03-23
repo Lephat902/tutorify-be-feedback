@@ -1,7 +1,11 @@
 import { Controller, UseInterceptors } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { FeedbackService } from './feedback.service';
-import { CreateFeedbackDto, CreateFeedbackReplyDto } from './dtos';
+import {
+  CreateFeedbackDto,
+  CreateFeedbackReplyDto,
+  FeedbackQueryDto,
+} from './dtos';
 import MongooseClassSerializerInterceptor from './interceptors/mongoose-class-serializer.interceptor';
 import { Feedback, FeedbackReply } from '../infrastructure/schemas';
 @Controller()
@@ -13,8 +17,8 @@ export class FeedbackController {
   constructor(private readonly feedbackService: FeedbackService) {}
 
   @MessagePattern({ cmd: 'getAllFeedbacks' })
-  getAllFeedbacks(): Promise<Feedback> {
-    return this.feedbackService.getFeedbacks();
+  findFeedbacks(filters: FeedbackQueryDto) {
+    return this.feedbackService.getFeedbacks(filters);
   }
 
   @MessagePattern({ cmd: 'createFeedback' })

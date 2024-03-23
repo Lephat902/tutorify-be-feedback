@@ -6,7 +6,11 @@ import {
   GetFeedbacksQuery,
 } from './queries/impl';
 import { CreateFeedbackReplyCommand } from './commands/impl';
-import { CreateFeedbackDto, CreateFeedbackReplyDto } from './dtos';
+import {
+  CreateFeedbackDto,
+  CreateFeedbackReplyDto,
+  FeedbackQueryDto,
+} from './dtos';
 import { Feedback, FeedbackReply } from '../infrastructure/schemas';
 import {
   BroadcastService,
@@ -26,8 +30,8 @@ export class FeedbackService {
     private readonly broadcastService: BroadcastService,
   ) {}
 
-  getFeedbacks(): Promise<Feedback> {
-    return this.queryBus.execute(new GetFeedbacksQuery());
+  getFeedbacks(filters: FeedbackQueryDto) {
+    return this.queryBus.execute(new GetFeedbacksQuery(filters));
   }
 
   async createFeedback(
