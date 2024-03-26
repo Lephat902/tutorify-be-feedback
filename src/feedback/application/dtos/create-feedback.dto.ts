@@ -1,5 +1,5 @@
 export class CreateFeedbackDto {
-  readonly studentId: string;
+  readonly userId: string;
   readonly tutorId: string;
   readonly rate: number;
   readonly text: string;

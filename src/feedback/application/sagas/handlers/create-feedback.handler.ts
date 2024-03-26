@@ -51,7 +51,7 @@ export class CreateFeedbackHandler {
     const eventPayload = Builder<FeedbackCreatedEventPayload>()
       .feedbackId(this.savedFeedback._id.toString())
       .tutorId(this.savedFeedback.tutorId)
-      .studentId(this.savedFeedback.studentId)
+      .userId(this.savedFeedback.userId)
       .rate(this.savedFeedback.rate)
       .build();
 

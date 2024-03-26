@@ -20,7 +20,7 @@ export class Feedback {
   tutorId: string;
 
   @Prop({ required: true })
-  studentId: string;
+  userId: string;
 
   @Prop([
     {

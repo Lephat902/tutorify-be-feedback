@@ -66,10 +66,10 @@ export class FeedbackService {
   }
 
   async dispatchFeedbackCreatedEvent(newFeedback: Feedback) {
-    const { _id, studentId, tutorId, rate } = newFeedback;
+    const { _id, userId, tutorId, rate } = newFeedback;
     const eventPayload = Builder<FeedbackCreatedEventPayload>()
       .feedbackId(_id.toString())
-      .studentId(studentId)
+      .userId(userId)
       .tutorId(tutorId)
       .rate(rate)
       .build();

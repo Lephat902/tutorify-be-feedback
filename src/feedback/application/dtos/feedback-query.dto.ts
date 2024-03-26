@@ -6,4 +6,5 @@ export class FeedbackQueryDto extends IntersectionType(
   FeedbackSortingDto,
 ) {
   readonly tutorId?: number;
+  readonly q?: string;
 }
