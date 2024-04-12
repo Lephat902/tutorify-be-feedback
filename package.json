@@ -28,17 +28,12 @@
     "@nestjs/microservices": "^10.3.1",
     "@nestjs/mongoose": "^10.0.2",
     "@nestjs/platform-express": "^10.0.0",
-    "amqp-connection-manager": "^4.1.14",
-    "amqplib": "^0.10.3",
     "builder-pattern": "^2.2.0",
-    "class-transformer": "^0.5.1",
     "mongoose": "^8.1.1",
     "nestjs-saga": "^0.2.0",
-    "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.8.1"
+    "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
-    "@nestjs/cli": "^10.0.0",
     "@nestjs/schematics": "^10.0.0",
     "@nestjs/testing": "^10.0.0",
     "@types/express": "^4.17.17",
