@@ -8,6 +8,7 @@ import {
 } from './dtos';
 import MongooseClassSerializerInterceptor from './interceptors/mongoose-class-serializer.interceptor';
 import { Feedback, FeedbackReply } from '../infrastructure/schemas';
+import { UserMakeRequest } from '@tutorify/shared';
 @Controller()
 @UseInterceptors(
   MongooseClassSerializerInterceptor(Feedback),
@@ -24,6 +25,11 @@ export class FeedbackController {
   @MessagePattern({ cmd: 'createFeedback' })
   createFeedback(createFeedbackDto: CreateFeedbackDto) {
     return this.feedbackService.createFeedback(createFeedbackDto);
+  }
+
+  @MessagePattern({ cmd: 'deleteFeedback' })
+  deleteFeedback(data: { userMakeRequest: UserMakeRequest, feedbackId: string },) {
+    return this.feedbackService.deleteFeedback(data.userMakeRequest, data.feedbackId);
   }
 
   @MessagePattern({ cmd: 'getFeedbacksByTutorId' })

@@ -5,7 +5,7 @@ import {
   GetFeedbacksByTutorIdQuery,
   GetFeedbacksQuery,
 } from './queries/impl';
-import { CreateFeedbackReplyCommand } from './commands/impl';
+import { CreateFeedbackReplyCommand, DeleteFeedbackCommand } from './commands/impl';
 import {
   CreateFeedbackDto,
   CreateFeedbackReplyDto,
@@ -18,6 +18,7 @@ import {
   FeedbackCreatedEventPayload,
   FeedbackReplyCreatedEvent,
   FeedbackReplyCreatedEventPayload,
+  UserMakeRequest,
 } from '@tutorify/shared';
 import { Builder } from 'builder-pattern';
 import { CreateFeedbackSaga } from './sagas/impl';
@@ -38,6 +39,12 @@ export class FeedbackService {
     createFeedbackDto: CreateFeedbackDto,
   ): Promise<Feedback> {
     return this.commandBus.execute(new CreateFeedbackSaga(createFeedbackDto));
+  }
+
+  async deleteFeedback(
+    userMakeRequest: UserMakeRequest, feedbackId: string,
+  ): Promise<boolean> {
+    return this.commandBus.execute(new DeleteFeedbackCommand(userMakeRequest, feedbackId));
   }
 
   getFeedbacksByTutorId(tutorId: string) {
